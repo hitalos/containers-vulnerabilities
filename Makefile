@@ -1,8 +1,9 @@
-include .env
+SHELL=/bin/bash
+-include .env
 export
 
 public:
-	hugo --minify --cleanDestinationDir
+	hugo --quiet --minify --cleanDestinationDir
 
 reports:
 	./report.sh
@@ -11,6 +12,8 @@ clean:
 	rm -rf public reports
 
 deploy: public
-	hugo deploy
+	@[[ -n "$(AWS_ACCESS_KEY_ID)" && -n "$(AWS_SECRET_ACCESS_KEY)" ]] && \
+	hugo deploy || \
+	echo "Missing AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY environment variable"
 
 .PHONY: all clean public deploy
