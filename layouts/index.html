@@ -1,9 +1,20 @@
 {{ define "main" }}
 	<section>
+		{{ $vulns := index (where site.Sections "Title" "Vulnerabilities") 0 }}
+
 		{{ with site.Data.pods }}
 			{{ range . }}
+				{{ $namespace := .namespace }}
+				{{ $containers := len .containers }}
+				{{ $warnings := 0 }}
+				{{ range where $vulns.Pages "Params.namespace" $namespace }}
+					{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
+				{{ end }}
+
 				<h2>Namespace: {{ .namespace }}</h2>
+
 				<table>
+					<caption>{{ $containers }} container(s) and {{ $warnings }} warning(s)</caption>
 					<thead>
 						<tr>
 							<th>Container Name</th>
@@ -19,7 +30,7 @@
 									<td>{{ .name }}</td>
 									<td>{{ .image }}</td>
 									<td>
-										<a href="vulnerabilities/{{ replace (replace .imageID ":" "") "/" "_" }}">{{ .imageID }}</a>
+										<a href="vulnerabilities/{{ $namespace }}/{{ replace (replace .imageID ":" "") "/" "_" }}">{{ .imageID }}</a>
 									</td>
 								</tr>
 							{{ end }}

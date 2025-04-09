@@ -1,4 +1,5 @@
 {{ range site.Data.pods }}
+	{{ $namespace := .namespace }}
 	{{ range .containers }}
 		{{ $path := replace (replace .imageID ":" "") "/" "_" }}
 		{{ $mapkey := (replace .imageID "/" "_") }}
@@ -7,12 +8,15 @@
 		{{ $page := dict
 			"kind" "page"
 			"title" (printf "Image: %q" .imageID)
-			"path" $path
+			"path" (printf "%s/%s" $namespace $path)
 			"params" (dict
+				"imageID" .imageID
+				"image" .image
+				"namespace" $namespace
 				"grype" (index site.Data.grype $mapkey)
 				"trivy" (index site.Data.trivy $mapkey)
-				"grypeRawLink" (printf "../../data/grype/%s.json.zst" $mapkey)
-				"trivyRawLink" (printf "../../data/trivy/%s.json.zst" $mapkey)
+				"grypeRawLink" (printf "../../../data/grype/%s.json.zst" $mapkey)
+				"trivyRawLink" (printf "../../../data/trivy/%s.json.zst" $mapkey)
 			)
 		}}
 		{{ $.AddPage $page }}

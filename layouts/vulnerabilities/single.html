@@ -2,7 +2,9 @@
 	<article>
 		<h1>{{ .Title }}</h1>
 
-		<h2><a href="{{ .Params.grypeRawLink }}" title="Raw Info">Grype report</a></h2>
+		<h2>
+			<a href="{{ .Params.grypeRawLink }}" title="Raw Info">Grype report{{ with .Params.grype }} ({{ len . }}){{ end }}</a>
+		</h2>
 		{{ with .Params.grype }}
 			<ul>
 				{{ range . }}
@@ -16,7 +18,9 @@
 			<p>No vulnerabilities found!</p>
 		{{ end }}
 
-		<h2><a href="{{ .Params.trivyRawLink }}">Trivy report</a></h2>
+		<h2>
+			<a href="{{ .Params.trivyRawLink }}">Trivy report{{ with .Params.trivy }} ({{ len . }}){{ end }}</a>
+		</h2>
 		{{ with .Params.trivy }}
 			<ul>
 				{{ range . }}
