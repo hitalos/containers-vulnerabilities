@@ -1,0 +1,7 @@
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="{{ or .Summary $.Site.Params.description }}">
+	<title>{{ $.Site.Title }}{{ if not .IsHome }}{{ with .Title }} - {{ . }}{{ end }}{{ end }}</title>
+	{{- with resources.Get "styles/main.css" }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{ end }}
+</head>

@@ -1,0 +1,19 @@
+baseURL: /
+languageCode: pt-br
+title: K8S vulnerabilities
+disableHugoGeneratorInject: true
+
+params:
+  credits:
+    name: "@hitalos"
+    url: https://hitalos.dev
+
+disableKinds:
+  - RSS
+  - sitemap
+  - taxonomy
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

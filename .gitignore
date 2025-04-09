@@ -1,4 +1,6 @@
-data/
-*.gz
+*.lock
 *.zst
-*.xz
+.env
+data/
+public/
+static/

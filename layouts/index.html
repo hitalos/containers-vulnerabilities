@@ -1,0 +1,32 @@
+{{ define "main" }}
+	<section>
+		{{ with site.Data.pods }}
+			{{ range . }}
+				<h2>Namespace: {{ .namespace }}</h2>
+				<table>
+					<thead>
+						<tr>
+							<th>Container Name</th>
+							<th>Image</th>
+							<th>Image ID</th>
+
+						</tr>
+					</thead>
+					{{ with .containers }}
+						<tbody>
+							{{ range . }}
+								<tr>
+									<td>{{ .name }}</td>
+									<td>{{ .image }}</td>
+									<td>
+										<a href="vulnerabilities/{{ replace (replace .imageID ":" "") "/" "_" }}">{{ .imageID }}</a>
+									</td>
+								</tr>
+							{{ end }}
+						</tbody>
+					{{ end }}
+				</table>
+			{{ end }}
+		{{ end }}
+	</section>
+{{ end }}

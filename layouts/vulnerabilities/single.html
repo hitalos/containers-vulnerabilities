@@ -1,0 +1,33 @@
+{{ define "main" }}
+	<article>
+		<h1>{{ .Title }}</h1>
+
+		<h2><a href="{{ .Params.grypeRawLink }}" title="Raw Info">Grype report</a></h2>
+		{{ with .Params.grype }}
+			<ul>
+				{{ range . }}
+				<li>
+					<a href="{{ .url }}">{{ .id }}</a>:
+					{{ with .description }}{{ . | $.RenderString }}{{ else }}.{{ end }}
+				</li>
+				{{ end }}
+			</ul>
+		{{ else }}
+			<p>No vulnerabilities found!</p>
+		{{ end }}
+
+		<h2><a href="{{ .Params.trivyRawLink }}">Trivy report</a></h2>
+		{{ with .Params.trivy }}
+			<ul>
+				{{ range . }}
+					<li>
+						<a href="{{ .url }}">{{ .id }}</a>:
+						{{ with .description }}{{ . | $.RenderString }}{{ else }}.{{ end }}
+					</li>
+				{{ end }}
+			</ul>
+		{{ else }}
+			<p>No vulnerabilities found!</p>
+		{{ end }}
+	</article>
+{{ end }}

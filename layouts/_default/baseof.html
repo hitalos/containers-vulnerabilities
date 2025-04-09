@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{{- partial "head" . }}
+<body>
+	{{ partial "header" . -}}
+	<main>
+		{{- block "main" . }}
+			{{ .Content }}
+		{{ end }}
+	</main>
+{{ partial "footer" }}
+</body>
+</html>
