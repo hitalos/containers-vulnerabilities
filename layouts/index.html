@@ -11,7 +11,7 @@
 					{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
 				{{ end }}
 
-				<h2>Namespace: {{ .namespace }}</h2>
+				<h2>Namespace: {{ .namespace }} <a href="{{ .Permalink }}#{{ $namespace }}" name="{{ $namespace }}">#</a></h2>
 
 				<table>
 					<caption>{{ $containers }} container(s) and {{ $warnings }} warning(s)</caption>
