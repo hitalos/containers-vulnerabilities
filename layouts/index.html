@@ -8,7 +8,9 @@
 				{{ $containers := len .containers }}
 				{{ $warnings := 0 }}
 				{{ range where $vulns.Pages "Params.namespace" $namespace }}
-					{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
+					{{ if .Params.imageID }}
+						{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
+					{{ end }}
 				{{ end }}
 
 				<h2>Namespace: {{ .namespace }} <a href="{{ .Permalink }}#{{ $namespace }}" name="{{ $namespace }}">#</a></h2>
@@ -30,15 +32,20 @@
 								<tr>
 									<td>{{ .name }}</td>
 									<td>{{ .image }}</td>
+									{{ with .imageID }}
 									<td>
-										<a href="vulnerabilities/{{ $namespace }}/{{ replace (replace .imageID ":" "") "/" "_" }}">{{ .imageID }}</a>
+										<a href="vulnerabilities/{{ $namespace }}/{{ replace (replace . ":" "") "/" "_" }}">{{ . }}</a>
 									</td>
 									<td>
 										{{ add
-											(len (index site.Data.grype (replace .imageID "/" "_")))
-											(len (index site.Data.trivy (replace .imageID "/" "_")))
+											(len (index site.Data.grype (replace . "/" "_")))
+											(len (index site.Data.trivy (replace . "/" "_")))
 										}}
 									</td>
+									{{ else }}
+										<td>Undefined (is it running?)</td>
+										<td>0</td>
+									{{ end }}
 								</tr>
 							{{ end }}
 						</tbody>
