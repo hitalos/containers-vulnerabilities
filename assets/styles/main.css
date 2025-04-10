@@ -31,7 +31,6 @@ html, body {
 		h1, h2, p {
 			margin: 2rem 1rem 0 1rem;
 		}
-
 	}
 }
 
@@ -72,6 +71,10 @@ body > main {
 			tr > td, tr > th {
 				border: 1px solid silver;
 				padding: 0.5rem;
+			}
+
+			tr td:last-child {
+				text-align: center;
 			}
 		}
 	}

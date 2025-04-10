@@ -20,6 +20,7 @@
 							<th>Container Name</th>
 							<th>Image</th>
 							<th>Image ID</th>
+							<th>Count</th>
 
 						</tr>
 					</thead>
@@ -31,6 +32,12 @@
 									<td>{{ .image }}</td>
 									<td>
 										<a href="vulnerabilities/{{ $namespace }}/{{ replace (replace .imageID ":" "") "/" "_" }}">{{ .imageID }}</a>
+									</td>
+									<td>
+										{{ add
+											(len (index site.Data.grype (replace .imageID "/" "_")))
+											(len (index site.Data.trivy (replace .imageID "/" "_")))
+										}}
 									</td>
 								</tr>
 							{{ end }}
