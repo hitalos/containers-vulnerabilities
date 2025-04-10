@@ -44,6 +44,7 @@ TRIVY_QUERY='[
 	}
 ] | unique'
 
+rm -rf data/{trivy,grype}
 mkdir -p data/{trivy,grype} static/data/{trivy,grype}
 
 kubectl get pods -A -o json | jq -r "$PODS_QUERY" > data/pods.json
