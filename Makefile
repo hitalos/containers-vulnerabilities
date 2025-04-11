@@ -9,7 +9,7 @@ reports:
 	./report.sh
 
 clean:
-	rm -rf public reports
+	rm -rf public reports data
 
 deploy: public
 	@[[ -n "$(AWS_ACCESS_KEY_ID)" && -n "$(AWS_SECRET_ACCESS_KEY)" ]] && \
