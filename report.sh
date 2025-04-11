@@ -58,6 +58,7 @@ for i in $IMAGES; do
 	if [[ ! -f "$TRIVY_OUTPUT" && ! -s "$TRIVY_OUTPUT" ]]; then
 		trivy image --format json "$i" | zstd -14 > "$TRIVY_OUTPUT"
 	fi
+	touch "$TRIVY_OUTPUT"
 	zstdcat "$TRIVY_OUTPUT" | jq "$TRIVY_QUERY" > "data/trivy/${i//\//_}.json"
 
 	# Generate Grype
@@ -65,6 +66,7 @@ for i in $IMAGES; do
 	if [[ ! -f "$GRYPE_OUTPUT" && ! -s "$GRYPE_OUTPUT" ]]; then
 		grype "$i" --output json | zstd -13 > "$GRYPE_OUTPUT"
 	fi
+	touch "$GRYPE_OUTPUT"
 	zstdcat "$GRYPE_OUTPUT" | jq "$GRYPE_QUERY" > "data/grype/${i//\//_}.json"
 
 done
