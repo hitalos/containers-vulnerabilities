@@ -47,7 +47,12 @@ TRIVY_QUERY='[
 rm -rf data/{trivy,grype}
 mkdir -p data/{trivy,grype} static/data/{trivy,grype}
 
-kubectl get pods -A -o json | jq -r "$PODS_QUERY" > data/pods.json
+PODS=$(kubectl --request-timeout 1s get pods -A -o json)
+if [[ "$?" == "0" && -n "$PODS" ]]; then
+	echo "$PODS" | jq -r "$PODS_QUERY" > data/pods.json
+else
+	echo "Error updating pods.json. Using previous data."
+fi
 
 IMAGES=$(jq -r '.[].containers[].imageID' data/pods.json | sort -u)
 
