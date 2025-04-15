@@ -8,6 +8,10 @@ public:
 reports:
 	./report.sh
 
+report-%: clean
+	./report.sh $(*) && \
+	hugo --minify --cleanDestinationDir
+
 clean:
 	rm -rf public reports data
 
