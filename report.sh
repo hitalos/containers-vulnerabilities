@@ -1,22 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC2016
-PODS_QUERY='[
-	.items as $items
-	| .items
-	| map(.metadata.namespace) | unique | .[]
-	| . as $namespace
-	| {
-		namespace: $namespace,
-		containers: [
-			$items[]
-			| select(.metadata.namespace==$namespace)
-			| .status.containerStatuses[]
-			| { image: .image, imageID: .imageID, name: .name }
-		] | unique
-	}
-]'
-
 GRYPE_QUERY='[
 	.matches[]
 	| select(.vulnerability)
@@ -47,16 +30,9 @@ TRIVY_QUERY='[
 rm -rf data/{trivy,grype}
 mkdir -p data/{trivy,grype} static/data/{trivy,grype}
 
-if [[ -z $1 ]]; then
-	PODS=$(kubectl --request-timeout 1s get pods -A -o json)
-else
-	PODS=$(kubectl --request-timeout 1s get pods -n "$1" -o json)
-fi
-
-if [[ "$?" == "0" && -n "$PODS" ]]; then
-	echo "$PODS" | jq -r "$PODS_QUERY" > data/pods.json
-else
-	echo "Error updating pods.json. Using previous data."
+if [[ ! -f data/pods.json ]]; then
+	printf "Missing file 'data/pods.json'.\nDid you ran 'list' script?\n"
+	exit 1
 fi
 
 IMAGES=$(jq -r '.[].containers[].imageID' data/pods.json | sort -u)

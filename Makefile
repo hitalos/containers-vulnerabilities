@@ -5,12 +5,18 @@ export
 public:
 	hugo --quiet --minify --cleanDestinationDir
 
-reports:
+reports: list
 	./report.sh
 
 report-%: clean
 	./report.sh $(*) && \
 	hugo --minify --cleanDestinationDir
+
+list:
+	@bash -c 'read -p "List for podman or kubernetes? (p or k) " -n 1 ; \
+	if [[ "$${REPLY}" == "p" ]]; then ./list-pods-podman.sh ; \
+	elif [[ "$${REPLY}" == "k" ]]; then ./list-pods-k8s.sh ; \
+	fi; echo'
 
 clean:
 	rm -rf public reports data

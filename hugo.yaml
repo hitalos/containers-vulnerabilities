@@ -1,6 +1,6 @@
 baseURL: /
 languageCode: pt-br
-title: K8S vulnerabilities
+title: Containers vulnerabilities
 disableHugoGeneratorInject: true
 
 params:

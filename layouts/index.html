@@ -4,16 +4,16 @@
 
 		{{ with site.Data.pods }}
 			{{ range . }}
-				{{ $namespace := .namespace }}
+				{{ $name := .name }}
 				{{ $containers := len .containers }}
 				{{ $warnings := 0 }}
-				{{ range where $vulns.Pages "Params.namespace" $namespace }}
+				{{ range where $vulns.Pages "Params.name" $name }}
 					{{ if .Params.imageID }}
 						{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
 					{{ end }}
 				{{ end }}
 
-				<h2>Namespace: {{ .namespace }} <a href="{{ .Permalink }}#{{ $namespace }}" name="{{ $namespace }}">#</a></h2>
+				<h2>{{ .type }}: {{ .name }} <a href="{{ .Permalink }}#{{ $name }}" name="{{ $name }}">#</a></h2>
 
 				<table>
 					<caption>{{ $containers }} container(s) and {{ $warnings }} warning(s)</caption>
@@ -34,7 +34,7 @@
 									<td>{{ .image }}</td>
 									{{ with .imageID }}
 									<td>
-										<a href="vulnerabilities/{{ $namespace }}/{{ replace (replace . ":" "") "/" "_" }}">{{ . }}</a>
+										<a href="vulnerabilities/{{ $name }}/{{ replace (replace . ":" "") "/" "_" }}">{{ . }}</a>
 									</td>
 									<td>
 										{{ add
