@@ -6,7 +6,7 @@
 			<a href="{{ .Params.grypeRawLink }}" title="Raw Info">Grype report{{ with .Params.grype }} ({{ len . }}){{ end }}</a>
 		</h2>
 		{{ with .Params.grype }}
-			<ul>
+			<ul class="cves">
 				{{ range . }}
 				<li>
 					<a href="{{ .url }}">{{ .id }}</a>:
@@ -22,7 +22,7 @@
 			<a href="{{ .Params.trivyRawLink }}">Trivy report{{ with .Params.trivy }} ({{ len . }}){{ end }}</a>
 		</h2>
 		{{ with .Params.trivy }}
-			<ul>
+			<ul class="cves">
 				{{ range . }}
 					<li>
 						<a href="{{ .url }}">{{ .id }}</a>:

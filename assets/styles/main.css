@@ -16,20 +16,63 @@ html, body {
 
 	> header {
 		background-color: slategray;
-		padding: 1rem;
+		padding: 0;
 	}
 
 	> header > h1 {
 		margin: 2rem;
 	}
 
-	> main > section > h2 {
-		margin: 1rem 0 0.5rem 0;
+	> footer {
+		background-color: slategray;
+		padding: 1rem;
+		text-align: right;
+
+		a {
+			color: black;
+		}
 	}
 
-	> main > article {
-		h1, h2, p {
-			margin: 2rem 1rem 0 1rem;
+	> main {
+		flex: 1;
+		padding: 1rem;
+
+		> article {
+			h1, h2, p {
+				margin: 2rem 1rem 0 1rem;
+			}
+		}
+
+		> section {
+			border: 1px solid silver;
+			border-radius: 20px;
+			margin: 1rem;
+			padding: 1rem;
+
+			> h2 {
+				margin: 1rem 0 0.5rem 0;
+			}
+
+			> table {
+				border-collapse: collapse;
+				margin-bottom: 2rem;
+				width: 100%;
+
+				> tbody > tr {
+					&:nth-child(odd) {
+						background-color: #ececec;
+					}
+				}
+
+				tr > td, tr > th {
+					border: 1px solid silver;
+					padding: 0.5rem;
+				}
+
+				tr td:last-child {
+					text-align: center;
+				}
+			}
 		}
 	}
 }
@@ -43,54 +86,7 @@ a {
 	}
 }
 
-body > header {
-	padding: 0;
-}
-
-body > main {
-	flex: 1;
-	padding: 1rem;
-
-	> section {
-		border: 1px solid silver;
-		border-radius: 20px;
-		margin: 1rem;
-		padding: 1rem;
-
-		> table {
-			border-collapse: collapse;
-			margin-bottom: 2rem;
-			width: 100%;
-
-			> tbody > tr {
-				&:nth-child(odd) {
-					background-color: #ececec;
-				}
-			}
-
-			tr > td, tr > th {
-				border: 1px solid silver;
-				padding: 0.5rem;
-			}
-
-			tr td:last-child {
-				text-align: center;
-			}
-		}
-	}
-}
-
-body > footer {
-	background-color: slategray;
-	padding: 1rem;
-	text-align: right;
-
-	a {
-		color: black;
-	}
-}
-
-article ul {
+ul.cves {
 	border: 1px solid silver;
 	padding: 0;
 	margin: 1rem;
