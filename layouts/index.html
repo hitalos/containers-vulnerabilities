@@ -1,21 +1,21 @@
 {{ define "main" }}
 	<section>
-		{{ $vulns := index (where site.Sections "Title" "Vulnerabilities") 0 }}
+		{{- $vulns := index (where site.Sections "Title" "Vulnerabilities") 0 }}
 
-		{{ with site.Data.pods }}
-			{{ range . }}
-				{{ $name := .name }}
-				{{ $containers := len .containers }}
-				{{ $warnings := 0 }}
-				{{ $cves := slice }}
-				{{ range where $vulns.Pages "Params.name" $name }}
-					{{ if .Params.imageID }}
-						{{ $warnings = add $warnings (len .Params.grype) (len .Params.trivy) }}
+		{{- with site.Data.pods }}
+			{{- range . }}
+				{{- $name := .name }}
+				{{- $containers := len .containers }}
+				{{- $warnings := 0 }}
+				{{- $cves := slice }}
+				{{- range where $vulns.Pages "Params.name" $name -}}
+					{{- if .Params.imageID }}
+						{{- $warnings = add $warnings (len .Params.grype) (len .Params.trivy) }}
 						{{- range .Params.grype }}{{ $cves = $cves | append .id }}{{ end }}
 						{{- range .Params.trivy }}{{ $cves = $cves | append .id }}{{ end }}
 						{{- $cves = $cves | uniq }}
-					{{ end }}
-				{{ end }}
+					{{- end }}
+				{{- end }}
 
 				<h2>{{ .type }}: {{ .name }} <a href="{{ .Permalink }}#{{ $name }}" name="{{ $name }}">#</a></h2>
 
@@ -34,35 +34,34 @@
 							<th>Image</th>
 							<th>Image ID</th>
 							<th>Count</th>
-
 						</tr>
 					</thead>
 					{{ with .containers }}
 						<tbody>
-							{{ range . }}
+							{{- range . }}
 								<tr>
 									<td>{{ .name }}</td>
 									<td>{{ .image }}</td>
-									{{ with .imageID }}
+									{{ with .imageID -}}
 									<td>
 										<a href="vulnerabilities/{{ $name }}/{{ replace (replace . ":" "") "/" "_" }}">{{ . }}</a>
 									</td>
 									<td>
-										{{ add
+										{{- add
 											(len (index site.Data.grype (replace . "/" "_")))
 											(len (index site.Data.trivy (replace . "/" "_")))
-										}}
+										-}}
 									</td>
-									{{ else }}
+									{{- else }}
 										<td>Undefined (is it running?)</td>
 										<td>0</td>
-									{{ end }}
+									{{- end }}
 								</tr>
-							{{ end }}
+							{{- end }}
 						</tbody>
-					{{ end }}
+					{{- end }}
 				</table>
-			{{ end }}
-		{{ end }}
+			{{- end }}
+		{{- end }}
 	</section>
-{{ end }}
+{{- end }}
