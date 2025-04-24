@@ -7,16 +7,27 @@
 				{{ $name := .name }}
 				{{ $containers := len .containers }}
 				{{ $warnings := 0 }}
+				{{ $cves := slice }}
 				{{ range where $vulns.Pages "Params.name" $name }}
 					{{ if .Params.imageID }}
-						{{ $warnings = add $warnings (len .Params.grype ) (len .Params.trivy ) }}
+						{{ $warnings = add $warnings (len .Params.grype) (len .Params.trivy) }}
+						{{- range .Params.grype }}{{ $cves = $cves | append .id }}{{ end }}
+						{{- range .Params.trivy }}{{ $cves = $cves | append .id }}{{ end }}
+						{{- $cves = $cves | uniq }}
 					{{ end }}
 				{{ end }}
 
 				<h2>{{ .type }}: {{ .name }} <a href="{{ .Permalink }}#{{ $name }}" name="{{ $name }}">#</a></h2>
 
 				<table>
-					<caption>{{ $containers }} container(s) and {{ $warnings }} warning(s)</caption>
+					<caption>
+						{{- $containers }} container{{ if gt $containers 1 }}s{{ end -}}
+						{{- with $warnings -}}
+							, {{ . }} warning{{ if gt $warnings 1 }}s{{ end }} and {{ len $cves }} unique CVE{{ if gt (len $cves) 1 }}s{{ end }}
+						{{- else -}}
+							(no warnings)
+						{{- end -}}
+					</caption>
 					<thead>
 						<tr>
 							<th>Container Name</th>
