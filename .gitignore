@@ -1,6 +1,8 @@
 *.lock
+*.xz
 *.zst
 .env
 data/
 public/
+resources/
 static/
