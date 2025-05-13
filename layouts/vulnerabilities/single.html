@@ -3,7 +3,10 @@
 		<h1>{{ .Title }}</h1>
 
 		<h2>
-			<a href="{{ .Params.grypeRawLink }}" title="Raw Info">Grype report{{ with .Params.grype }} ({{ len . }}){{ end }}</a>
+
+			{{ if hugo.IsProduction }}<a href="{{ .Params.grypeRawLink }}" title="Raw Info">{{ end }}
+				Grype report{{ with .Params.grype }} ({{ len . }}){{ end }}
+			{{ if hugo.IsProduction }}</a>{{ end }}
 		</h2>
 		{{ with .Params.grype }}
 			<ul class="cves">

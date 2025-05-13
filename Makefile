@@ -27,10 +27,10 @@ list-%:
 	fi; echo'
 
 public:
-	hugo --minify --cleanDestinationDir
+	hugo --minify --cleanDestinationDir --environment production
 
 clean:
-	@rm -rf public data
+	@rm -rf public data resources
 
 deploy: public
 	@[[ -n "$(AWS_ACCESS_KEY_ID)" && -n "$(AWS_SECRET_ACCESS_KEY)" ]] && \
@@ -38,8 +38,9 @@ deploy: public
 	echo "Missing AWS_ACCESS_KEY_ID or AWS_SECRET_ACCESS_KEY environment variable"
 
 tar:
+	hugo --minify --cleanDestinationDir --environment tar
 	@cd public && \
-	tar --exclude="*.zst" -c . | gzip -9 > ../containers-vulnerabilities.tar.gz
+	tar --exclude="*.zst" -c . | xz -9 > ../containers-vulnerabilities.tar.xz
 
 sync:
 	rsync -a --checksum --verbose --delete ./ nti-045.jfal:Documents/workspace/k8s-vulnerabilities/
