@@ -13,9 +13,14 @@
 				{{ range . }}
 				<li>
 					<a href="{{ .url }}">{{ .id }}</a>:
-					{{ with .description }}{{ . | $.RenderString }}{{ else }}.{{ end }}
+					{{ with .description }}
+						{{- $description := . | strings.TrimSpace | $.RenderString }}
+						{{- if not (hasPrefix $description "<p>") }}<p>{{ $description }}</p>
+						{{- else }}{{ $description }}
+						{{- end }}
+					{{- else }}.{{ end }}
 				</li>
-				{{ end }}
+				{{- end }}
 			</ul>
 		{{ else }}
 			<p>No vulnerabilities found!</p>
@@ -29,9 +34,14 @@
 				{{ range . }}
 					<li>
 						<a href="{{ .url }}">{{ .id }}</a>:
-						{{ with .description }}{{ . | $.RenderString }}{{ else }}.{{ end }}
+						{{ with .description }}
+							{{- $description := . | strings.TrimSpace | $.RenderString }}
+							{{- if not (hasPrefix $description "<p>") }}<p>{{ $description }}</p>
+							{{- else }}{{ $description }}
+							{{- end }}
+						{{- else }}.{{ end }}
 					</li>
-				{{ end }}
+				{{- end }}
 			</ul>
 		{{ else }}
 			<p>No vulnerabilities found!</p>
