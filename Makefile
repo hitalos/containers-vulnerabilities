@@ -43,6 +43,6 @@ tar:
 	tar --exclude="*.zst" -c . | xz -9 > ../containers-vulnerabilities.tar.xz
 
 sync:
-	rsync -a --checksum --verbose --delete ./ nti-045.jfal:Documents/workspace/k8s-vulnerabilities/
+	rsync -a --checksum --verbose --delete ./ $(REMOTE)
 
 .PHONY: all clean public deploy
