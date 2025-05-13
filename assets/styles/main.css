@@ -78,8 +78,8 @@ html, body {
 }
 
 a {
-	text-decoration: none;
 	color: var(--primaryColor);
+	text-decoration: none;
 
 	&:hover {
 		text-decoration: underline;
@@ -99,6 +99,10 @@ ul.cves {
 
 		&:nth-child(odd) {
 			background-color: #ececec;
+		}
+
+		> a {
+			text-transform: uppercase;
 		}
 	}
 }
