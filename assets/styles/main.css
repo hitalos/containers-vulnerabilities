@@ -15,12 +15,25 @@ html, body {
 	min-height: 100vh;
 
 	> header {
+		align-items: center;
 		background-color: slategray;
+		display: flex;
+		justify-content: space-between;
 		padding: 0;
-	}
 
-	> header > h1 {
-		margin: 2rem;
+		a {
+			color: black;
+		}
+
+		> h1 {
+			margin: 2rem;
+		}
+
+		> nav ul {
+			list-style: none;
+			margin: 0 2rem;
+			padding: 0;
+		}
 	}
 
 	> footer {

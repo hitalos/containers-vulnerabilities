@@ -1,3 +1,16 @@
 <header>
-	<h1>{{ site.Title }}</h1>
+	<h1><a href="/">{{ site.Title }}</a></h1>
+	{{ if .IsHome }}
+		{{ with site.Menus.main }}
+			<nav>
+				<ul>
+					{{ range . }}
+						<li>
+							<a href="{{ .URL }}">{{ .Title }}</a>
+						</li>
+					{{ end }}
+				</ul>
+			</nav>
+		{{ end }}
+	{{ end }}
 </header>
