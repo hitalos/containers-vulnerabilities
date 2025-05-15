@@ -11,7 +11,7 @@ PODS_QUERY='[
 		type: "Namespace",
 		containers: [
 			$items[]
-			| select(.metadata.namespace==$namespace)
+			| select(.metadata.namespace==$namespace and .status.phase=="Running")
 			| .status.containerStatuses[]
 			| { image: .image, imageID: .imageID, name: .name }
 		] | unique
