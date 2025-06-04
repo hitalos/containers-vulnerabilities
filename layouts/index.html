@@ -36,26 +36,25 @@
 							<th>Count</th>
 						</tr>
 					</thead>
+					{{ $containers := slice }}
 					{{ with .containers }}
+						{{ range . }}
+							{{ $count := add
+								(len (index site.Data.grype (replace .imageID "/" "_")))
+								(len (index site.Data.trivy (replace .imageID "/" "_")))
+							}}
+							{{ $containers = $containers | append (dict "container" . "count" $count)}}
+						{{ end }}
 						<tbody>
-							{{- range . }}
+							{{- range (sort $containers "count" "desc")}}
+								{{ $c := index . "container" }}
 								<tr>
-									<td>{{ .name }}</td>
-									<td>{{ .image }}</td>
-									{{ with .imageID -}}
+									<td>{{ $c.name }}</td>
+									<td>{{ $c.image }}</td>
 									<td>
-										<a href="vulnerabilities/{{ $name }}/{{ replace (replace . ":" "") "/" "_" }}">{{ . }}</a>
+										<a href="vulnerabilities/{{ $name }}/{{ replace (replace $c.imageID ":" "") "/" "_" }}">{{ $c.imageID }}</a>
 									</td>
-									<td>
-										{{- add
-											(len (index site.Data.grype (replace . "/" "_")))
-											(len (index site.Data.trivy (replace . "/" "_")))
-										-}}
-									</td>
-									{{- else }}
-										<td>Undefined (is it running?)</td>
-										<td>0</td>
-									{{- end }}
+									<td>{{ .count }}</td>
 								</tr>
 							{{- end }}
 						</tbody>
