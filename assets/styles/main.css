@@ -77,9 +77,18 @@ html, body {
 					}
 				}
 
-				tr > td, tr > th {
+				tr > td,
+				tr > th {
 					border: 1px solid silver;
 					padding: 0.5rem;
+				}
+
+				tr > td:nth-child(2),
+				tr > td:nth-child(3) {
+					font-size: 0.9rem;
+					max-width: 300px;
+					overflow: hidden;
+					text-overflow: ellipsis;
 				}
 
 				tr td:last-child {
