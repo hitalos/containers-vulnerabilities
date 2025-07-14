@@ -21,4 +21,5 @@ for POD in $PODS; do
 	CONTAINERS+=$(podman container ls --format json | jq -r "$CONTAINERS_QUERY")
 done
 
+mkdir -p data
 echo "$CONTAINERS" | jq -s > data/pods.json
