@@ -3,11 +3,13 @@
 		<h1>{{ .Title }}</h1>
 
 		<h2>
-
 			{{ if hugo.IsProduction }}<a href="{{ .Params.grypeRawLink }}" title="Raw Info">{{ end }}
 				Grype report{{ with .Params.grype }} ({{ len . }}){{ end }}
 			{{ if hugo.IsProduction }}</a>{{ end }}
 		</h2>
+
+		<div class="lastmod">Data updated at <time datetime="{{ .Params.grypeLastUpdate.UTC.Format "2006-01-02T15:04:05Z" }}">{{ .Params.grypeLastUpdate.Format "02/01/2006 15:04" }}</time></div>
+
 		{{ with .Params.grype }}
 			<ul class="cves">
 				{{ range . }}
@@ -29,6 +31,9 @@
 		<h2>
 			<a href="{{ .Params.trivyRawLink }}">Trivy report{{ with .Params.trivy }} ({{ len . }}){{ end }}</a>
 		</h2>
+
+		<div class="lastmod">Data updated at <time datetime="{{ .Params.trivyLastUpdate.UTC.Format "2006-01-02T15:04:05Z" }}">{{ .Params.trivyLastUpdate.Format "02/01/2006 15:04" }}</time></div>
+
 		{{ with .Params.trivy }}
 			<ul class="cves">
 				{{ range . }}

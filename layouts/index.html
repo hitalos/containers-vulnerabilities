@@ -1,4 +1,8 @@
 {{ define "main" }}
+	<div class="lastmod">
+		{{- $mtime := (os.Stat "data/pods.json").ModTime -}}
+		Data updated at <time datetime="{{ $mtime.UTC.Format "2006-01-02T15:04:05Z" }}">{{ $mtime.Format "02/01/2006 15:04" }}</time>
+	</div>
 	<section>
 		{{- $vulns := index (where site.Sections "Title" "Vulnerabilities") 0 }}
 
