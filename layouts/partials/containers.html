@@ -1,0 +1,56 @@
+{{- $vulns := index (where site.Sections "Title" "Vulnerabilities") 0 }}
+
+{{- $name := .name }}
+{{- $containers := len .containers }}
+{{- $warnings := 0 }}
+{{- $cves := slice }}
+{{- range where $vulns.Pages "Params.name" $name -}}
+	{{- if .Params.imageID }}
+		{{- $warnings = add $warnings (len .Params.grype) (len .Params.trivy) }}
+		{{- range .Params.grype }}{{ $cves = $cves | append .id }}{{ end }}
+		{{- range .Params.trivy }}{{ $cves = $cves | append .id }}{{ end }}
+		{{- $cves = $cves | uniq }}
+	{{- end }}
+{{- end }}
+
+<table>
+	<caption>
+		{{- $containers }} container{{ if gt $containers 1 }}s{{ end -}}
+		{{- with $warnings -}}
+			, {{ . }} warning{{ if gt $warnings 1 }}s{{ end }} and {{ len $cves }} unique CVE{{ if gt (len $cves) 1 }}s{{ end }}
+		{{- else -}}
+			(no warnings)
+		{{- end -}}
+	</caption>
+	<thead>
+		<tr>
+			<th>Container Name</th>
+			<th>Image</th>
+			<th>Image ID</th>
+			<th>Count</th>
+		</tr>
+	</thead>
+	{{ $containers := slice }}
+	{{ with .containers }}
+		{{ range . }}
+			{{ $count := add
+				(len (index site.Data.grype (replace .imageID "/" "_")))
+				(len (index site.Data.trivy (replace .imageID "/" "_")))
+			}}
+			{{ $containers = $containers | append (dict "container" . "count" $count)}}
+		{{ end }}
+		<tbody>
+			{{- range (sort $containers "count" "desc")}}
+				{{ $c := index . "container" }}
+				<tr>
+					<td>{{ $c.name }}</td>
+					<td>{{ $c.image }}</td>
+					<td>
+						<a href="/vulnerabilities/{{ $name }}/{{ replace (replace $c.imageID ":" "") "/" "_" }}">{{ $c.imageID }}</a>
+					</td>
+					<td>{{ .count }}</td>
+				</tr>
+			{{- end }}
+		</tbody>
+	{{- end }}
+</table>
