@@ -56,3 +56,14 @@ for i in $IMAGES; do
 	zstdcat "$GRYPE_OUTPUT" | jq "$GRYPE_QUERY" > "data/grype/${i//\//_}.json"
 
 done
+
+# Clean up unused files
+echo "Cleaning up unused files…"
+VALIDS=$(jq -r '.[] | .containers[] | .imageID + ".json.zst"' data/pods.json | tr / _)
+for f in static/data/{grype,trivy}/*.json.zst; do
+	filename=$(basename "$f")
+	if [[ ! " ${VALIDS[*]} " =~ [[:space:]]${filename}[[:space:]] ]]; then
+		echo "Removing unused file: $f"
+		rm "$f"
+	fi
+done
