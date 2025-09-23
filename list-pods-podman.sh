@@ -18,8 +18,8 @@ for POD in $PODS; do
 		]
 	}"
 
-	CONTAINERS+=$(podman container ls --format json | jq -r "$CONTAINERS_QUERY")
+	CONTAINERS+=$(jq -r "$CONTAINERS_QUERY" <(podman container ls --format json))
 done
 
 mkdir -p data
-echo "$CONTAINERS" | jq -s > data/pods.json
+jq -s <<< "$CONTAINERS" > data/pods.json

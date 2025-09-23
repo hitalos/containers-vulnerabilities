@@ -26,7 +26,7 @@ fi
 
 if [[ "$?" == "0" && -n "$PODS" ]]; then
 	mkdir -p data/
-	echo "$PODS" | jq -r "$PODS_QUERY" > data/pods.json
+	jq -r "$PODS_QUERY" <<< "$PODS" > data/pods.json
 else
 	echo "Error updating pods.json. Using previous data."
 fi
