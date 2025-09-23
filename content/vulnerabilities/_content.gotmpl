@@ -11,6 +11,11 @@
 	{{ $.AddPage $page }}
 
 	{{ range .containers }}
+		{{ if le (len .imageID) 65 }}
+			{{ warnf "Skipping short imageID %q for %s/%s" .imageID $name .name }}
+			{{ continue }}
+		{{ end }}
+
 		{{ $path := replace (replace .imageID ":" "") "/" "_" }}
 		{{ $mapkey := (replace .imageID "/" "_") }}
 		{{ $scratch := newScratch }}
