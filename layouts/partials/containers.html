@@ -33,11 +33,16 @@
 	{{ $containers := slice }}
 	{{ with .containers }}
 		{{ range . }}
-			{{ $count := add
-				(len (index site.Data.grype (replace .imageID "/" "_")))
-				(len (index site.Data.trivy (replace .imageID "/" "_")))
-			}}
-			{{ $containers = $containers | append (dict "container" . "count" $count)}}
+			{{ if le (len .imageID) 65 }}{{ continue }}{{ end }}
+			{{ $count := slice }}
+			{{ range (index site.Data.grype (replace .imageID "/" "_")) }}
+				{{ $count = $count | append (upper .id) }}
+			{{ end }}
+			{{ range (index site.Data.trivy (replace .imageID "/" "_")) }}
+				{{ $count = $count | append (upper .id) }}
+			{{ end }}
+			{{ $count = $count | uniq }}
+			{{ $containers = $containers | append (dict "container" . "count" (len $count)) }}
 		{{ end }}
 		<tbody>
 			{{- range (sort $containers "count" "desc")}}
