@@ -42,7 +42,7 @@ for i in $IMAGES; do
 	# Generate Trivy
 	TRIVY_OUTPUT="static/data/trivy/${i//\//_}.json.zst"
 	if [[ ! -f "$TRIVY_OUTPUT" && ! -s "$TRIVY_OUTPUT" ]]; then
-		trivy image --format json "$i" | zstd -14 > "$TRIVY_OUTPUT"
+		trivy image --format json "$i" | zstd -15 > "$TRIVY_OUTPUT"
 	fi
 	zstdcat "$TRIVY_OUTPUT" | jq "$TRIVY_QUERY" > "data/trivy/${i//\//_}.json"
 
@@ -62,6 +62,6 @@ for f in static/data/{grype,trivy}/*.json.zst; do
 	filename=$(basename "$f")
 	if [[ ! " ${VALIDS[*]} " =~ [[:space:]]${filename}[[:space:]] ]]; then
 		echo "Removing unused file: $f"
-		rm "$f"
+		rm -f "$f"
 	fi
 done
