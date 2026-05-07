@@ -1,4 +1,4 @@
-{{ range site.Data.pods }}
+{{ range hugo.Data.pods }}
 	{{ $name := .name }}
 	{{ $page := dict
 		"kind" "page"
@@ -29,8 +29,8 @@
 				"imageID" .imageID
 				"image" .image
 				"name" $name
-				"grype" (index site.Data.grype $mapkey)
-				"trivy" (index site.Data.trivy $mapkey)
+				"grype" (index hugo.Data.grype $mapkey)
+				"trivy" (index hugo.Data.trivy $mapkey)
 				"grypeLastUpdate" (os.Stat (printf "static/data/grype/%s.json.zst" $mapkey)).ModTime
 				"trivyLastUpdate" (os.Stat (printf "static/data/trivy/%s.json.zst" $mapkey)).ModTime
 				"grypeRawLink" (printf "../../../data/grype/%s.json.zst" $mapkey)

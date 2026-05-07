@@ -4,9 +4,9 @@
 		Data updated at <time datetime="{{ $mtime.UTC.Format "2006-01-02T15:04:05Z" }}">{{ $mtime.Format "02/01/2006 15:04" }}</time>
 	</div>
 	<section>
-		{{- with site.Data.pods }}
+		{{- with hugo.Data.pods }}
 			{{ range . }}
-				<h2>{{ .type }}: <a href="vulnerabilities/{{ .name }}" name="{{ .name }}">{{ .name }}</a></h2>
+				<h2>{{ .type }}: {{ .name }}</h2>
 				{{ partial "containers" . }}
 			{{ end }}
 		{{- end }}

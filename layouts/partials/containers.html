@@ -18,7 +18,7 @@
 		{{- $containers }} container{{ if gt $containers 1 }}s{{ end -}}
 		{{- with $warnings -}}
 			, {{ . }} warning{{ if gt $warnings 1 }}s{{ end }} and {{ len $cves }} unique CVE{{ if gt (len $cves) 1 }}s{{ end }}
-		{{- else -}}
+		{{- else }}
 			(no warnings)
 		{{- end -}}
 	</caption>
@@ -35,10 +35,10 @@
 		{{ range . }}
 			{{ if le (len .imageID) 65 }}{{ continue }}{{ end }}
 			{{ $count := slice }}
-			{{ range (index site.Data.grype (replace .imageID "/" "_")) }}
+			{{ range (index hugo.Data.grype (replace .imageID "/" "_")) }}
 				{{ $count = $count | append (upper .id) }}
 			{{ end }}
-			{{ range (index site.Data.trivy (replace .imageID "/" "_")) }}
+			{{ range (index hugo.Data.trivy (replace .imageID "/" "_")) }}
 				{{ $count = $count | append (upper .id) }}
 			{{ end }}
 			{{ $count = $count | uniq }}
@@ -51,7 +51,7 @@
 					<td>{{ $c.name }}</td>
 					<td>{{ $c.image }}</td>
 					<td>
-						<a href="/vulnerabilities/{{ $name }}/{{ replace (replace $c.imageID ":" "") "/" "_" }}">{{ $c.imageID }}</a>
+						<a href="vulnerabilities/{{ $name }}/{{ replace (replace $c.imageID ":" "") "/" "_" }}.html">{{ $c.imageID }}</a>
 					</td>
 					<td>{{ .count }}</td>
 				</tr>

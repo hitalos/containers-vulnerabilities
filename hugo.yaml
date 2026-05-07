@@ -1,15 +1,18 @@
+---
 baseURL: /
-languageCode: pt-br
-title: Containers vulnerabilities
 disableHugoGeneratorInject: true
+languages:
+  pt-BR: {}
+uglyURLs: true
+title: Containers vulnerabilities
 
 params:
   credits:
-    name: "@hitalos"
-    url: https://hitalos.dev
+    name: DTI/JFAL
+    url: mailto:dti@jfal.jus.br
 
 disableKinds:
-  - RSS
+  - rss
   - sitemap
   - taxonomy
 
