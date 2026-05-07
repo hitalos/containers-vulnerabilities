@@ -4,12 +4,8 @@
 	<meta name="description" content="{{ or .Summary site.Params.description }}">
 	<title>{{ site.Title }}{{ if not .IsHome }}{{ with .Title }} - {{ . }}{{ end }}{{ end }}</title>
 	{{ with resources.Get "styles/main.css" -}}
-		{{ if hugo.IsProduction -}}
-			<link rel="stylesheet" href="{{ .RelPermalink }}">
-		{{- else -}}
-			<style type="text/css">
-				{{ .Content | safeCSS }}
-			</style>
-		{{ end -}}
+	<style type="text/css">
+		{{ .Content | safeCSS }}
+	</style>
 	{{ end }}
 </head>
