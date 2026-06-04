@@ -40,7 +40,7 @@
 					<li>
 						<a href="{{ .url }}">{{ .id }}</a>:
 						{{ with .description }}
-							{{- $description := . | strings.TrimSpace | $.RenderString }}
+							{{- $description := strings.ReplacePairs "<script>" "&lt;script&gt;" . | strings.TrimSpace | $.RenderString }}
 							{{- if not (hasPrefix $description "<p>") }}<p>{{ $description }}</p>
 							{{- else }}{{ $description }}
 							{{- end }}
