@@ -17,7 +17,7 @@
 	<caption>
 		{{- $containers }} container{{ if gt $containers 1 }}s{{ end -}}
 		{{- with $warnings -}}
-			, {{ . }} warning{{ if gt $warnings 1 }}s{{ end }} and {{ len $cves }} unique CVE{{ if gt (len $cves) 1 }}s{{ end }}
+			, {{ . }} alert{{ if gt $warnings 1 }}s{{ end }} (high or critical) and {{ len $cves }} unique CVE{{ if gt (len $cves) 1 }}s{{ end }}
 		{{- else }}
 			(no warnings)
 		{{- end -}}
