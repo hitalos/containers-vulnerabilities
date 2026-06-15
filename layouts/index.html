@@ -6,7 +6,7 @@
 	<section>
 		{{- with hugo.Data.pods }}
 			{{ range . }}
-				<h2>{{ .type }}: {{ .name }}</h2>
+				<h2>{{ .type }}: <a href="vulnerabilities/{{ .name }}/index.html">{{ .name }}</a></h2>
 				{{ partial "containers" . }}
 			{{ end }}
 		{{- end }}
