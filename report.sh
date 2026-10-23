@@ -12,7 +12,7 @@ GRYPE_QUERY='[
 		url: .dataSource,
 		description: .description
 	}
-] | unique'
+] | unique | sort_by(.risk) | reverse'
 
 TRIVY_QUERY='[
 	select(.Results)
@@ -27,7 +27,7 @@ TRIVY_QUERY='[
 		url: .PrimaryURL,
 		description: .Description
 	}
-] | unique'
+] | unique | sort_by(.risk) | reverse'
 
 rm -rf data/{trivy,grype}
 mkdir -p data/{trivy,grype} static/data/{trivy,grype}
