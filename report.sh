@@ -8,6 +8,7 @@ GRYPE_QUERY='[
 	| {
 		id: .id,
 		severity: .severity | ascii_upcase,
+		risk: .risk,
 		url: .dataSource,
 		description: .description
 	}
@@ -22,6 +23,7 @@ TRIVY_QUERY='[
 	| {
 		id: .VulnerabilityID,
 		severity: .Severity,
+		risk: .CVSS.nvd.V2Score,
 		url: .PrimaryURL,
 		description: .Description
 	}

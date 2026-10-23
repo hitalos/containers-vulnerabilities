@@ -14,7 +14,7 @@
 			<ul class="cves">
 				{{ range . }}
 				<li>
-					<a href="{{ .url }}">{{ .id }}</a>:
+					<a href="{{ .url }}">{{ .id }}{{ with .risk }} <sup title="risk">({{ div (math.Round (mul 100 .)) 100 }})</sup>{{ end }}</a>:
 					{{ with .description }}
 						{{- $description := . | strings.TrimSpace | $.RenderString }}
 						{{- if not (hasPrefix $description "<p>") }}<p>{{ $description }}</p>
@@ -38,7 +38,7 @@
 			<ul class="cves">
 				{{ range . }}
 					<li>
-						<a href="{{ .url }}">{{ .id }}</a>:
+						<a href="{{ .url }}">{{ .id }}{{ with .risk }} <sup title="risk">({{ div (math.Round (mul 100 .)) 100 }})</sup>{{ end }}</a>:
 						{{ with .description }}
 							{{- $description := strings.ReplacePairs "<script>" "&lt;script&gt;" . | strings.TrimSpace | $.RenderString }}
 							{{- if not (hasPrefix $description "<p>") }}<p>{{ $description }}</p>
