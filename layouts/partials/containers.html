@@ -33,7 +33,6 @@
 	{{ $containers := slice }}
 	{{ with .containers }}
 		{{ range . }}
-			{{ if le (len .imageID) 65 }}{{ continue }}{{ end }}
 			{{ $count := slice }}
 			{{ range (index hugo.Data.grype (replace .imageID "/" "_")) }}
 				{{ $count = $count | append (upper .id) }}

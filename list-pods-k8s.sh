@@ -13,7 +13,11 @@ PODS_QUERY='[
 			$items[]
 			| select(.metadata.namespace==$namespace and .status.phase=="Running")
 			| .status.containerStatuses[]
-			| { image: .image, imageID: .imageID, name: .name }
+			| {
+				image: .image,
+				imageID: (if (.imageID | contains("sha256")) then .imageID else .image end),
+				name: .name
+			}
 		] | unique
 	}
 ]'
