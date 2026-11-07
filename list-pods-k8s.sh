@@ -2,21 +2,18 @@
 
 # shellcheck disable=SC2016
 PODS_QUERY='[
-	.items as $items
-	| .items
-	| map(.metadata.namespace) | unique | .[]
-	| . as $namespace
+	.items
+	| map(select(.status.phase=="Running"))
+	| group_by(.metadata.namespace)[]
 	| {
-		name: $namespace,
+		name: .[0].metadata.namespace,
 		type: "Namespace",
 		containers: [
-			$items[]
-			| select(.metadata.namespace==$namespace and .status.phase=="Running")
-			| .status.containerStatuses[]
+			.[].status.containerStatuses[]
 			| {
-				image: .image,
-				imageID: (if (.imageID | contains("sha256")) then .imageID else .image end),
-				name: .name
+				name,
+				image,
+				imageID: (if (.imageID // "" | contains("sha256")) then .imageID else .image end),
 			}
 		] | unique
 	}
